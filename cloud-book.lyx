@@ -1,0 +1,428 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass memoir
+\begin_preamble
+\renewcommand{\familydefault}{\sfdefault}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "lmodern" "Manrope3"
+\font_sans "helvet" "Manrope3"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 150 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing double
+\use_hyperref false
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The busy dev’s guide to modern software development practices
+\end_layout
+
+\begin_layout Author
+Tom Donohue
+\end_layout
+
+\begin_layout Date
+June 2020
+\end_layout
+
+\begin_layout Chapter*
+Introduction
+\end_layout
+
+\begin_layout Itemize
+What is Serverless?
+\end_layout
+
+\begin_layout Itemize
+What is DevOps?
+\end_layout
+
+\begin_layout Itemize
+What is Kubernetes/Docker?
+\end_layout
+
+\begin_layout Standard
+Creating software today is so flippin' complicated!
+\end_layout
+
+\begin_layout Standard
+From the variety of languages and frameworks we use, to the huge landscape
+ of tools and applications that help us ship our code into production, we're
+ floating in a sea of options, terminology and confusion.
+\end_layout
+
+\begin_layout Standard
+We’re often left to try to understand the big picture by hunting around
+ forums, corporate marketing pieces and endless crappy blogs to grab a shred
+ of understanding.
+ We don't want to look stupid in front of coworkers or customers, so we
+ frantically search for 
+\begin_inset Quotes eld
+\end_inset
+
+interview questions
+\begin_inset Quotes erd
+\end_inset
+
+ or snappy YouTube videos to try to absorb nuggets of information about
+ what are usually pretty complex topics.
+\end_layout
+
+\begin_layout Standard
+My idea in writing this book is to give a very easy-to-digest snapshot of
+ where we are in 2020.
+ It gives you just enough information about the key topics to understand
+ the basics, and give you inspiration for what to learn next.
+\end_layout
+
+\begin_layout Standard
+It’s designed for you if you’re straight out of college and looking for
+ your first job, or if you’ve been seeing the changes coming but you don’t
+ understand what any of it means.
+ We need to learn and understand a lot before we can even start writing
+ code.
+\end_layout
+
+\begin_layout Standard
+This is a bunch of knowledge that I’ve gathered from my own reading and
+ learning, plus tweets, Reddit posts, Hacker News, Stack Overflow, and other
+ places where opinionated tech people hang out.
+ :-) 
+\end_layout
+
+\begin_layout Standard
+I also wanted to write this book because, whilst there are a ton of programming
+ tutorials out there, there aren’t a lot of ways to find clear, simple descripti
+ons of how we build software today, or the reasons why we do what we do!
+\end_layout
+
+\begin_layout Standard
+Hope it's helpful for you.
+\end_layout
+
+\begin_layout Standard
+Tom
+\end_layout
+
+\begin_layout Part*
+Tell me about DevOps
+\end_layout
+
+\begin_layout Chapter*
+What is DevOps?
+\end_layout
+
+\begin_layout Standard
+Let's start with this topic, because it’s perhaps the most misunderstood
+ of them all.
+ What exactly is DevOps?
+\end_layout
+
+\begin_layout Quotation
+DevOps is a mindset! 
+\end_layout
+
+\begin_layout Quotation
+It’s a way of working! 
+\end_layout
+
+\begin_layout Quotation
+It’s culture!
+\end_layout
+
+\begin_layout Standard
+But what does that actually mean?!
+\end_layout
+
+\begin_layout Standard
+It means that DevOps is a 
+\emph on
+school of thought
+\emph default
+ about how we should work together.
+ Specifically, devops is a way of thinking about how we should work together
+ to build and run (operate) software, based on the principles of collaboration
+ and feedback loops.
+\end_layout
+
+\begin_layout Standard
+Since it’s a bit of a woolly concept, and not a concrete “thing”, there
+ is no definition that everyone agrees with.
+ This is also why people can make a lot of money selling high-value consulting
+ on “devops”, because it’s a bit vague.
+\end_layout
+
+\begin_layout Section*
+Principles of DevOps
+\end_layout
+
+\begin_layout Standard
+Somewhere along the way, DevOps lost some of the meaning it had.
+ Now, lots of things are labelled “devops”.
+ 
+\end_layout
+
+\begin_layout Standard
+But most people seem to agree that the original principles of devops were:
+\end_layout
+
+\begin_layout Itemize
+Collaboration working together, not in “silos”.
+ 
+\end_layout
+
+\begin_layout Itemize
+Cross-functional teams.
+ 
+\end_layout
+
+\begin_layout Itemize
+Feedback loops - gathering as much information as we can about how we’re
+ doing, to improve the product and make it better.
+ This is like recursion! 
+\end_layout
+
+\begin_layout Itemize
+Measure & learn - figure out what success looks like, and measure it so
+ that it can be monitored and improved
+\end_layout
+
+\begin_layout Standard
+DevOps can be seen as (but not just limited to these!):
+\end_layout
+
+\begin_layout Itemize
+Cross-functional teams
+\end_layout
+
+\begin_layout Itemize
+Automated software deployments, using scripts or pipelines 
+\end_layout
+
+\begin_layout Itemize
+Automated building of servers or infrastructure, instead of building them
+ manually
+\end_layout
+
+\begin_layout Itemize
+Tools and programs that collect information about how 
+\end_layout
+
+\begin_layout Itemize
+Automated quality checking (e.g.
+ tests)
+\end_layout
+
+\begin_layout Itemize
+Developers having more ownership of how their software is deployed
+\end_layout
+
+\begin_layout Section*
+What problem does it solve?
+\end_layout
+
+\begin_layout Standard
+In large companies, software developers are often very separated from operations.
+ (Like people living in two entirely different apartments in the same building.)
+\end_layout
+
+\begin_layout Standard
+This is because you’re usually labelled as either a “developer” or an “operation
+s
+\begin_inset Quotes erd
+\end_inset
+
+ person (like a system administrator, database administrator).
+ Your label can tend to dictate your workload and who you interact with.
+\end_layout
+
+\begin_layout Standard
+In large companies it’s often really hard to get teams to work together.
+ In a lot of cases, developers will never have to interact with the people
+ who actually run their code!
+\end_layout
+
+\begin_layout Standard
+Developers want to improve software and add new features.
+ Things new features can help the company to make more money - for example,
+ by adding a gift card feature to a company's ecommerce site.
+ However, operations teams are concerned about keeping the system running
+ and stable - to protect the company’s revenue.
+ These might seem to be opposing goals.
+\end_layout
+
+\begin_layout Standard
+DevOps tries to solve this problem by encouraging developers and operations
+ to work more closely, through collaboration, tools and data.
+ 
+\end_layout
+
+\begin_layout Standard
+Benefits? Confidence in deploying new software, which means that new versions
+ of software can be deployed very often, sometimes dozens or hundreds of
+ times per day.
+\end_layout
+
+\begin_layout Standard
+By collaborating, using automation and working more closely together, teams
+ can be always learning from successes and failures, and build better software.
+\end_layout
+
+\begin_layout Standard
+People generally think that DevOps is 
+\begin_inset Quotes eld
+\end_inset
+
+a good thing
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section*
+How do I use it?
+\end_layout
+
+\begin_layout Standard
+DevOps isn’t a tool, a methodology, or a product, or a service that you
+ can buy.
+ It’s not really meant to be a job title, or a team either!
+\end_layout
+
+\begin_layout Standard
+It’s a mindset, or a way of thinking about how teams are organised and should
+ collaborate to deliver things.
+ You can do this without having “DevOps” in your job title or team name.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename you-x-ventures-Oalh2MojUuk-unsplash.jpg
+	display false
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It can be adopted bottom-up, which means that some teams might decide independen
+tly to use DevOps principles.
+ Then, if they see good results from their efforts, other teams might start
+ to adopt the same approaches.
+\end_layout
+
+\begin_layout Standard
+Or, it can be adopted top-down, which means that management in the company
+ might decide to make specific changes to the company structure and processes
+ to allow devops culture to grow.
+\end_layout
+
+\begin_layout Standard
+Almost always, DevOps is about people.
+ It’s about enabling people to work together, and removing the barriers
+ that stop them from doing so.
+\end_layout
+
+\begin_layout Part*
+Appendix
+\end_layout
+
+\begin_layout Chapter*
+Glossary
+\end_layout
+
+\begin_layout Description
+Production Another term for the “live” environment, where the software runs
+ for real users.
+\end_layout
+
+\begin_layout Description
+Silo A negative term used to describe a team that works on its own, and
+ is perhaps difficult to interact with or collaborate with
+\end_layout
+
+\begin_layout Chapter*
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+Photos:
+\end_layout
+
+\begin_layout Standard
+- You X Ventures on Unsplash - https://unsplash.com/@youxventures
+\end_layout
+
+\end_body
+\end_document
