@@ -6,10 +6,46 @@
 \origin unavailable
 \textclass memoir
 \begin_preamble
-\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx, xcolor}
+
+\makeatletter
+\newlength{\numberheight}
+\newlength{\barlength}
+\makechapterstyle{veelo}{%
+  \setlength{\afterchapskip}{40pt}
+  \renewcommand*{\chapterheadstart}{\vspace*{40pt}}
+  \renewcommand*{\afterchapternum}{\par\nobreak\vskip 25pt}
+  \renewcommand*{\chapnamefont}{\normalfont\LARGE\flushright\color{magenta}}
+  \renewcommand*{\chapnumfont}{\normalfont\HUGE}
+  \renewcommand*{\chaptitlefont}{\normalfont\Huge\bfseries\flushright\color{cyan}}
+  \renewcommand*{\printchaptername}{%
+    \chapnamefont\scshape{\@chapapp}}
+  \renewcommand*{\chapternamenum}{}
+  \setlength{\beforechapskip}{18mm}
+  \setlength{\midchapskip}{\paperwidth}
+  \addtolength{\midchapskip}{-\textwidth}
+  \addtolength{\midchapskip}{-\spinemargin}
+  \renewcommand*{\printchapternum}{%
+    \makebox[0pt][l]{\hspace{.8em}%
+      \resizebox{!}{\beforechapskip}{\chapnumfont \thechapter}%
+      \hspace{.8em}%
+      \rule{\midchapskip}{\beforechapskip}%
+    }}%
+}
+\makeatother
+\chapterstyle{veelo}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
+\begin_local_layout
+# These settings just seem to change how it's rendered within LyX!
+
+#Style Standard
+#    Font
+#        Family sans
+#    EndFont
+#End
+\end_local_layout
 \language english
 \language_package default
 \inputencoding auto
@@ -154,7 +190,6 @@ It’s designed for you if you’re straight out of college and looking for
 This is a bunch of knowledge that I’ve gathered from my own reading and
  learning, plus tweets, Reddit posts, Hacker News, Stack Overflow, and other
  places where opinionated tech people hang out.
- :-) 
 \end_layout
 
 \begin_layout Standard
@@ -172,15 +207,19 @@ Tom
 \end_layout
 
 \begin_layout Part*
-Tell me about DevOps
+The content
 \end_layout
 
-\begin_layout Chapter*
+\begin_layout Chapter
+DevOps
+\end_layout
+
+\begin_layout Section*
 What is DevOps?
 \end_layout
 
 \begin_layout Standard
-Let's start with this topic, because it’s perhaps the most misunderstood
+Let's start with this topic, because it’s perhaps the most often-misunderstood
  of them all.
  What exactly is DevOps?
 \end_layout
@@ -198,29 +237,29 @@ It’s culture!
 \end_layout
 
 \begin_layout Standard
-But what does that actually mean?!
+Cool.
+ But what does that actually mean?!
 \end_layout
 
 \begin_layout Standard
-It means that DevOps is a 
-\emph on
-school of thought
-\emph default
- about how we should work together.
- Specifically, devops is a way of thinking about how we should work together
- to build and run (operate) software, based on the principles of collaboration
- and feedback loops.
+DevOps is a way of thinking about how development and operations teams in
+ a company should work together to make and run software.
+ It is based on core principles of collaboration and constant improvement.
 \end_layout
 
 \begin_layout Standard
 Since it’s a bit of a woolly concept, and not a concrete “thing”, there
- is no definition that everyone agrees with.
- This is also why people can make a lot of money selling high-value consulting
+ isn't a universal definition which everyone agrees with.
+ 
+\end_layout
+
+\begin_layout Standard
+This is also why people make a lot of money selling high-value consulting
  on “devops”, because it’s a bit vague.
 \end_layout
 
 \begin_layout Section*
-Principles of DevOps
+The principles of DevOps
 \end_layout
 
 \begin_layout Standard
@@ -230,32 +269,30 @@ Somewhere along the way, DevOps lost some of the meaning it had.
 \end_layout
 
 \begin_layout Standard
-But most people seem to agree that the original principles of devops were:
+But some people seem to agree that the guiding principles of devops are:
 \end_layout
 
 \begin_layout Itemize
-Collaboration working together, not in “silos”.
- 
+Collaboration and flow: improving the flow of work from developers to operations.
+ This might mean breaking down larger chunks of work into smaller ones,
+ adding testing steps to ensure quality, etc.
 \end_layout
 
 \begin_layout Itemize
-Cross-functional teams.
- 
+Fast feedback loops: gather lots of information at every step of the process,
+ which we can use to see problems when they happen, or check how we’re doing
+ and create safety.
 \end_layout
 
 \begin_layout Itemize
-Feedback loops - gathering as much information as we can about how we’re
- doing, to improve the product and make it better.
- This is like recursion! 
-\end_layout
-
-\begin_layout Itemize
-Measure & learn - figure out what success looks like, and measure it so
- that it can be monitored and improved
+Learn and experiment: make time and space for learning, and use it to improve
+ things.
+ Figure out what success looks like, and measure it so that it can be monitored
+ and improved
 \end_layout
 
 \begin_layout Standard
-DevOps can be seen as (but not just limited to these!):
+DevOps values can be seen in these patterns or behaviours:
 \end_layout
 
 \begin_layout Itemize
@@ -281,11 +318,15 @@ Automated quality checking (e.g.
 \end_layout
 
 \begin_layout Itemize
+Very short time required to go from a feature request into production
+\end_layout
+
+\begin_layout Itemize
 Developers having more ownership of how their software is deployed
 \end_layout
 
 \begin_layout Section*
-What problem does it solve?
+What problem does DevOps solve?
 \end_layout
 
 \begin_layout Standard
@@ -349,7 +390,7 @@ a good thing
 \end_layout
 
 \begin_layout Section*
-How do I use it?
+How do I get started with it?
 \end_layout
 
 \begin_layout Standard
