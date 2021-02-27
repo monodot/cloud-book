@@ -34,6 +34,19 @@
 }
 \makeatother
 \chapterstyle{veelo}
+
+% Add a page break before a section
+\let\oldsection\section
+\renewcommand\section{\clearpage\oldsection}
+
+% Redefine emphasis as bold (cos there's no italic in Manrope font)
+\let\emph\relax % there's no \RedeclareTextFontCommand
+\DeclareTextFontCommand{\emph}{\bfseries\em}
+
+% For circled numbers
+\usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -58,7 +71,7 @@
 \use_non_tex_fonts true
 \font_sc false
 \font_osf false
-\font_sf_scale 150 100
+\font_sf_scale 100 100
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
@@ -71,7 +84,7 @@
 \spacing double
 \use_hyperref false
 \papersize a4paper
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -92,10 +105,15 @@
 \justification true
 \use_refstyle 1
 \use_minted 0
+\backgroundcolor #fdeeed
 \index Index
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 2cm
+\topmargin 3cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -106,7 +124,7 @@
 \dynamic_quotes 0
 \papercolumns 1
 \papersides 1
-\paperpagestyle default
+\paperpagestyle plain
 \tracking_changes false
 \output_changes false
 \html_math_output 0
@@ -117,85 +135,53 @@
 \begin_body
 
 \begin_layout Title
-The busy dev’s guide to modern software development practices
+A Brief Introduction to DevOps
 \end_layout
 
 \begin_layout Author
-Tom Donohue
+Tom Donohue ~ https://tomd.xyz
 \end_layout
 
 \begin_layout Date
 June 2020
 \end_layout
 
-\begin_layout Chapter*
-Introduction
-\end_layout
-
-\begin_layout Itemize
-What is Serverless?
-\end_layout
-
-\begin_layout Itemize
-What is DevOps?
-\end_layout
-
-\begin_layout Itemize
-What is Kubernetes/Docker?
+\begin_layout Section*
+Hello
 \end_layout
 
 \begin_layout Standard
-Creating software today is so flippin' complicated!
+Creating software today is so frickin' complicated!
 \end_layout
 
 \begin_layout Standard
-From the variety of languages and frameworks we use, to the huge landscape
- of tools and applications that help us ship our code into production, we're
- floating in a sea of options, terminology and confusion.
+From the languages and frameworks we use, to the tools and applications
+ that help us run our code, we're all drowning in a sea of options, terminology
+ and confusion.
 \end_layout
 
 \begin_layout Standard
 We’re often left to try to understand the big picture by hunting around
  forums, corporate marketing pieces and endless crappy blogs to grab a shred
  of understanding.
- We don't want to look stupid in front of coworkers or customers, so we
- frantically search for 
-\begin_inset Quotes eld
-\end_inset
-
-interview questions
-\begin_inset Quotes erd
-\end_inset
-
- or snappy YouTube videos to try to absorb nuggets of information about
- what are usually pretty complex topics.
+ 
 \end_layout
 
 \begin_layout Standard
-My idea in writing this book is to give a very easy-to-digest snapshot of
- where we are in 2020.
- It gives you just enough information about the key topics to understand
- the basics, and give you inspiration for what to learn next.
+We don't want to look stupid in front of coworkers or customers, so we frantical
+ly search for “interview questions” or snappy YouTube videos to try to absorb
+ nuggets of information about what are usually pretty complex topics.
 \end_layout
 
 \begin_layout Standard
-It’s designed for you if you’re straight out of college and looking for
- your first job, or if you’ve been seeing the changes coming but you don’t
- understand what any of it means.
- We need to learn and understand a lot before we can even start writing
- code.
-\end_layout
-
-\begin_layout Standard
-This is a bunch of knowledge that I’ve gathered from my own reading and
- learning, plus tweets, Reddit posts, Hacker News, Stack Overflow, and other
- places where opinionated tech people hang out.
-\end_layout
-
-\begin_layout Standard
-I also wanted to write this book because, whilst there are a ton of programming
- tutorials out there, there aren’t a lot of ways to find clear, simple descripti
-ons of how we build software today, or the reasons why we do what we do!
+My idea in writing this short book is to give you a very easy-to-digest
+ snapshot of one of the big topics in 2020: 
+\series bold
+DevOps
+\series default
+.
+ It's designed to give you just enough information about to understand the
+ basics, and give you inspiration for what to learn next.
 \end_layout
 
 \begin_layout Standard
@@ -206,191 +192,510 @@ Hope it's helpful for you.
 Tom
 \end_layout
 
-\begin_layout Part*
-The content
-\end_layout
-
-\begin_layout Chapter
-DevOps
-\end_layout
-
 \begin_layout Section*
 What is DevOps?
 \end_layout
 
 \begin_layout Standard
-Let's start with this topic, because it’s perhaps the most often-misunderstood
- of them all.
- What exactly is DevOps?
-\end_layout
-
-\begin_layout Quotation
-DevOps is a mindset! 
-\end_layout
-
-\begin_layout Quotation
-It’s a way of working! 
-\end_layout
-
-\begin_layout Quotation
-It’s culture!
+What exactly is DevOps? You might hear people say things like:
 \end_layout
 
 \begin_layout Standard
-Cool.
- But what does that actually mean?!
+\noindent
+\align center
+DevOps is a mindset! ...
+ It’s a way of working! ...
+ It’s culture!
 \end_layout
 
 \begin_layout Standard
-DevOps is a way of thinking about how development and operations teams in
- a company should work together to make and run software.
- It is based on core principles of collaboration and constant improvement.
-\end_layout
-
-\begin_layout Standard
-Since it’s a bit of a woolly concept, and not a concrete “thing”, there
- isn't a universal definition which everyone agrees with.
+It's also very confusing to find a good definition, because the term has
+ been adopted by many tech companies to sell products.
  
 \end_layout
 
 \begin_layout Standard
-This is also why people make a lot of money selling high-value consulting
- on “devops”, because it’s a bit vague.
+So what actually is it?!
+\end_layout
+
+\begin_layout Standard
+DevOps is a 
+\series bold
+way of thinking
+\series default
+ about how companies can deliver better software, quicker.
+ 
+\end_layout
+
+\begin_layout Standard
+It promotes the idea that development and operations teams need to work
+ more closely together, in order to make reliable software.
+\end_layout
+
+\begin_layout Standard
+A DevOps mindset is about improving developers ability to get quality software
+ into production, and increasing developers' involvement in how their applicatio
+ns are run.
+\end_layout
+
+\begin_layout Standard
+It's also about how using data and metrics to improve the quality of software
+ and improve our ability to recover from faults.
+ It's also about how to help operations teams handle applications that need
+ to be released ever more frequently, sometimes many times a day.
+\end_layout
+
+\begin_layout Standard
+DevOps is about thinking how we can deliver software more quickly, by valuing
+ open culture, collaboration and constant improvement.
 \end_layout
 
 \begin_layout Section*
-The principles of DevOps
+The Three Ways of DevOps
 \end_layout
 
 \begin_layout Standard
-Somewhere along the way, DevOps lost some of the meaning it had.
- Now, lots of things are labelled “devops”.
- 
+Since it’s a bit of a fuzzy concept, there isn't a definition which everyone
+ agrees with.
 \end_layout
 
 \begin_layout Standard
-But some people seem to agree that the guiding principles of devops are:
-\end_layout
+But, fortunately, there are three guiding principles of DevOps, to help
+ us figure it out.
+ These were initially 
+\begin_inset CommandInset href
+LatexCommand href
+name "devised by Gene Kim"
+target "https://itrevolution.com/the-three-ways-principles-underpinning-devops/"
+literal "false"
 
-\begin_layout Itemize
-Collaboration and flow: improving the flow of work from developers to operations.
- This might mean breaking down larger chunks of work into smaller ones,
- adding testing steps to ensure quality, etc.
-\end_layout
-
-\begin_layout Itemize
-Fast feedback loops: gather lots of information at every step of the process,
- which we can use to see problems when they happen, or check how we’re doing
- and create safety.
-\end_layout
-
-\begin_layout Itemize
-Learn and experiment: make time and space for learning, and use it to improve
- things.
- Figure out what success looks like, and measure it so that it can be monitored
- and improved
-\end_layout
-
-\begin_layout Standard
-DevOps values can be seen in these patterns or behaviours:
-\end_layout
-
-\begin_layout Itemize
-Cross-functional teams
-\end_layout
-
-\begin_layout Itemize
-Automated software deployments, using scripts or pipelines 
-\end_layout
-
-\begin_layout Itemize
-Automated building of servers or infrastructure, instead of building them
- manually
-\end_layout
-
-\begin_layout Itemize
-Tools and programs that collect information about how 
-\end_layout
-
-\begin_layout Itemize
-Automated quality checking (e.g.
- tests)
-\end_layout
-
-\begin_layout Itemize
-Very short time required to go from a feature request into production
-\end_layout
-
-\begin_layout Itemize
-Developers having more ownership of how their software is deployed
-\end_layout
-
-\begin_layout Section*
-What problem does DevOps solve?
-\end_layout
-
-\begin_layout Standard
-In large companies, software developers are often very separated from operations.
- (Like people living in two entirely different apartments in the same building.)
-\end_layout
-
-\begin_layout Standard
-This is because you’re usually labelled as either a “developer” or an “operation
-s
-\begin_inset Quotes erd
-\end_inset
-
- person (like a system administrator, database administrator).
- Your label can tend to dictate your workload and who you interact with.
-\end_layout
-
-\begin_layout Standard
-In large companies it’s often really hard to get teams to work together.
- In a lot of cases, developers will never have to interact with the people
- who actually run their code!
-\end_layout
-
-\begin_layout Standard
-Developers want to improve software and add new features.
- Things new features can help the company to make more money - for example,
- by adding a gift card feature to a company's ecommerce site.
- However, operations teams are concerned about keeping the system running
- and stable - to protect the company’s revenue.
- These might seem to be opposing goals.
-\end_layout
-
-\begin_layout Standard
-DevOps tries to solve this problem by encouraging developers and operations
- to work more closely, through collaboration, tools and data.
- 
-\end_layout
-
-\begin_layout Standard
-Benefits? Confidence in deploying new software, which means that new versions
- of software can be deployed very often, sometimes dozens or hundreds of
- times per day.
-\end_layout
-
-\begin_layout Standard
-By collaborating, using automation and working more closely together, teams
- can be always learning from successes and failures, and build better software.
-\end_layout
-
-\begin_layout Standard
-People generally think that DevOps is 
-\begin_inset Quotes eld
-\end_inset
-
-a good thing
-\begin_inset Quotes erd
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsection*
+1.
+ Improve Flow from business to customer
+\end_layout
+
+\begin_layout Standard
+How can we improve the flow of our work, so that value is delivered to customers
+ faster and smoother? (Value here means new software features.) For example,
+ can we break down large, risky chunks of work into smaller pieces, so they
+ can be delivered to the customer more often? Or could we automate some
+ tasks that we do repeatedly?
+\end_layout
+
+\begin_layout Subsection*
+2.
+ Create and use feedback loops
+\end_layout
+
+\begin_layout Standard
+DevOps says that we should collect data from the stages of software development,
+ like coding, testing, deploying and monitoring.
+ We then use that data as feedback on how well we're doing, spot any problems
+ when they happen, give more confidence in the code we're building and improve
+ the product.
+ Feedback helps us measure our quality and go faster.
+ For example, can we measure the sentiment of the team, or the quality of
+ our code? How can we use that data to improve?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Wrap figure
+lines 0
+placement O
+overhang 2cm
+width "25col%"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename nope.png
+	lyxscale 10
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+3.
+ Learn and experiment continuously.
+\end_layout
+
+\begin_layout Standard
+This means making time and space for learning, and using the things that
+ we learn to make the system better overall.
+ That might mean improvements to how we build software, or how we can make
+ the app better for users.
  
 \end_layout
 
 \begin_layout Section*
-How do I get started with it?
+The DevOps Loop
+\end_layout
+
+\begin_layout Standard
+You might have seen people talk about DevOps and use a diagram like this.
+ It's sometimes called the 
+\begin_inset Quotes eld
+\end_inset
+
+DevOps Loop
+\begin_inset Quotes erd
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename devops-loop.png
+	lyxscale 15
+	width 85col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This picture is a way of showing that building software isn't a linear process,
+ 
+\series bold
+it's a constant loop
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+When the first version of an application is released by developers, the
+ work doesn't just stop there! The output from development goes into operations.
+ And then any learnings and output from operations can go back into development.
+ And so we go round the loop again...
+\end_layout
+
+\begin_layout Standard
+So we can see that our job is never done.
+ By going round this loop, we can make our product better and deliver more
+ value.
+\end_layout
+
+\begin_layout Section*
+What problem does DevOps try to solve?
+\end_layout
+
+\begin_layout Standard
+The problem DevOps tries to solve is slowness to change.
+\end_layout
+
+\begin_layout Standard
+Remember the recent spike in online grocery shopping, due to the coronavirus
+ pandemic? Businesses needed to adapt fast!
+\end_layout
+
+\begin_layout Standard
+But to adapt, companies usually need to change some parts of the software
+ that runs their business.
+ For example, they might need to add more servers to cope with demand.
+\end_layout
+
+\begin_layout Standard
+This might seem easy - just tell the development and operations teams to
+ do it! 
+\end_layout
+
+\begin_layout Standard
+But, there's a problem: IT teams in companies are traditionally focused
+ on providing stability (protecting the castle!), not quick delivery of
+ new features.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Operations 
+\series default
+teams want to keep applications stable and up-and-running (maintaining profit).
+ But 
+\series bold
+development
+\series default
+ teams want to deliver new features quickly for the business (making more
+ profit).
+ These can seem like opposing goals.
+\end_layout
+
+\begin_layout Standard
+The result is that delivering new features can often be slow and expensive.
+ By the time a new feature is ready, the business opportunity might have
+ already been missed.
+\end_layout
+
+\begin_layout Standard
+DevOps tries to help companies deliver software that users want, faster.
+ 
+\end_layout
+
+\begin_layout Standard
+DevOps promotes the idea that development and operations teams are critical
+ in providing value to the business.
+ So the right culture should be in place that allows those teams to deliver
+ that value sooner and more predictably.
+\end_layout
+
+\begin_layout Section*
+What are some examples of DevOps?
+\end_layout
+
+\begin_layout Standard
+DevOps is about adopting culture and mindset, and not a specific set of
+ rules.
+ But if a company is adopting DevOps practices, you should be able to see
+ some evidence of it, like these:
+\end_layout
+
+\begin_layout Itemize
+Development and operations teams working closely together
+\end_layout
+
+\begin_layout Itemize
+New versions of applications are released several times a month, or even
+ several times a day
+\end_layout
+
+\begin_layout Itemize
+Developers' code is automatically built and deployed, using scripts or pipelines
+ 
+\end_layout
+
+\begin_layout Itemize
+Servers and infrastructure is built using automation scripts
+\end_layout
+
+\begin_layout Itemize
+Applications are monitored by tools that collect and report information
+ about application health
+\end_layout
+
+\begin_layout Itemize
+Automated quality checks are run whenever new code is committed
+\end_layout
+
+\begin_layout Itemize
+New features can move from idea into production very quickly
+\end_layout
+
+\begin_layout Itemize
+Developers have more ownership of how their software is deployed and operated
+\end_layout
+
+\begin_layout Standard
+There are many more examples than this! You'll be able to spot DevOps when
+ you see it.
+\end_layout
+
+\begin_layout Section*
+What's not good DevOps?
+\end_layout
+
+\begin_layout Standard
+If a company isn't adopting DevOps fully, you might see that development
+ and operations teams that don't work well together, and are siloed.
+\end_layout
+
+\begin_layout Standard
+You might also see that features can take a very long time to go from idea
+ into production, because they have to run through many stages, or are bounced
+ from team to team.
+\end_layout
+
+\begin_layout Standard
+If you see an operations team which has simply been renamed to the 
+\begin_inset Quotes eld
+\end_inset
+
+DevOps team
+\begin_inset Quotes erd
+\end_inset
+
+ - well, that just doesn't make any sense, and is the opposite of what DevOps
+ is about! It's about better collaboration between existing teams, not just
+ creating new ones.
+\end_layout
+
+\begin_layout Standard
+Suspicion between teams, or a lack of knowledge-sharing, are also signs
+ that DevOps culture isn't there yet.
+\end_layout
+
+\begin_layout Section*
+So what techy things should you know?
+\end_layout
+
+\begin_layout Standard
+DevOps is about people.
+ It’s about enabling people to work together, and removing the barriers
+ that stop them from doing so.
+\end_layout
+
+\begin_layout Standard
+But now, the word DevOps is just as much associated with specific tools,
+ as it is with culture.
+ Lots of job ads today use the title 
+\begin_inset Quotes eld
+\end_inset
+
+DevOps Engineer
+\begin_inset Quotes erd
+\end_inset
+
+ and simply list a set of tools.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename devops-loop-with-tools.png
+	lyxscale 15
+	width 98col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So while it's good to understand the concept of DevOps, it also makes sense
+ to understand some of the tools that are used by DevOps teams.
+ 
+\end_layout
+
+\begin_layout Standard
+These tools are often called 
+\begin_inset Quotes eld
+\end_inset
+
+DevOps tools
+\begin_inset Quotes erd
+\end_inset
+
+ because they help with DevOps principles.
+ They mostly make it easier to share things, collect data or to automate
+ things.
+\end_layout
+
+\begin_layout Subsection*
+Project management and collaboration
+\end_layout
+
+\begin_layout Standard
+These tools help teams to share and track progress on projects or communicate
+ in real time, even if people aren't physically near each other.
+ This makes it easier for development and operations teams to know what
+ each other is doing.
+ It also helps the business see when new features are ready.
+ 
+\end_layout
+
+\begin_layout Standard
+Examples: JIRA, Trello, Slack
+\end_layout
+
+\begin_layout Subsection*
+Code: writing quality software
+\end_layout
+
+\begin_layout Standard
+Developers need tools that allow them to work on code together, without
+ having to copy it onto memory sticks or send over email! They also need
+ features that allow them to work on the same code at the same time.
+\end_layout
+
+\begin_layout Standard
+Examples: GitHub, Bitbucket, GitLab
+\end_layout
+
+\begin_layout Subsection*
+Build: continuous integration & CI/CD
+\end_layout
+
+\begin_layout Standard
+Good continuous integration is essential for DevOps.
+ These tools are used to automate the process of compile code, run tests,
+ and deploy the application.
+ This means that the same process can be run dozens of times per day without
+ effort.
+\end_layout
+
+\begin_layout Standard
+Examples: Jenkins, Travis, GitLab, Circle CI, Azure DevOps
+\end_layout
+
+\begin_layout Subsection*
+Deploy: configuration management & provisioning
+\end_layout
+
+\begin_layout Standard
+These tools are used to create the environments where applications will
+ be deployed.
+ They might configure servers, install software, or create objects in the
+ cloud.
+ They are controlled using code.
+ This means that environments can be created at the touch of a button.
+\end_layout
+
+\begin_layout Standard
+Examples: Ansible, Terraform
+\end_layout
+
+\begin_layout Subsection*
+Operate: run the application
+\end_layout
+
+\begin_layout Standard
+When an application is built, it is then deployed onto a server or a cloud
+ platform.
+ These platforms run the applications.
+ 
+\end_layout
+
+\begin_layout Standard
+Examples: Kubernetes, Amazon EC2
+\end_layout
+
+\begin_layout Subsection*
+Monitor
+\end_layout
+
+\begin_layout Standard
+Applications need to be checked and observed to make sure they are running
+ OK.
+ Monitoring tools allow this information to be collected and reported, perhaps
+ on dashboards or sent to a chatroom.
+ This data is also useful to figure out where the application is performing
+ well, and what could be improved (potential features to go back into the
+ loop).
+\end_layout
+
+\begin_layout Standard
+Examples: Prometheus, Splunk, Grafana
+\end_layout
+
+\begin_layout Section*
+How do I get started with DevOps?
 \end_layout
 
 \begin_layout Standard
@@ -400,16 +705,94 @@ DevOps isn’t a tool, a methodology, or a product, or a service that you
 \end_layout
 
 \begin_layout Standard
-It’s a mindset, or a way of thinking about how teams are organised and should
- collaborate to deliver things.
- You can do this without having “DevOps” in your job title or team name.
+It’s a mindset, or a way of thinking about how teams can collaborate and
+ work together.
+ You might be doing this already without having “DevOps” in your job title
+ or team name.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Graphics
-	filename you-x-ventures-Oalh2MojUuk-unsplash.jpg
-	display false
-	width 80col%
+You can start doing DevOps by doing things like:
+\end_layout
+
+\begin_layout Itemize
+Collaborating more openly with other teams, sharing your successes and failures
+ so that others can improve
+\end_layout
+
+\begin_layout Itemize
+Looking at your current software development process, finding the bottleneck
+ (the part of the process that is difficult or takes a long time) and trying
+ to improve it.
+\end_layout
+
+\begin_layout Itemize
+Automating manual tasks, to give more confidence in your deployments and
+ server builds
+\end_layout
+
+\begin_layout Itemize
+Writing tests to check the quality of your code, so that it can be measured
+ and continually improved
+\end_layout
+
+\begin_layout Itemize
+Using a tool to automatically compile and test your code, like Jenkins
+\end_layout
+
+\begin_layout Itemize
+Gather feedback from end users about the application, so that their ideas
+ can go back into the loop and be developed as new features
+\end_layout
+
+\begin_layout Chapter*
+Thanks
+\end_layout
+
+\begin_layout Standard
+Thanks for reading! 
+\end_layout
+
+\begin_layout Standard
+If you found this useful then please share with your coworkers and let me
+ know by sending me a quick message on Twitter.
+ I would love to know what you think.
+ I'm 
+\begin_inset CommandInset href
+LatexCommand href
+name "@monodot"
+target "https://twitter.com/monodot"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Photos and illustrations are courtesy of:
+\end_layout
+
+\begin_layout Itemize
+Hand vector created by gohsantosa2 at 
+\begin_inset CommandInset href
+LatexCommand href
+name "www.freepik.com"
+target "https://www.freepik.com"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Background vector created by starline at 
+\begin_inset CommandInset href
+LatexCommand href
+name "www.freepik.com"
+target "https://www.freepik.com"
+literal "false"
 
 \end_inset
 
@@ -417,52 +800,7 @@ It’s a mindset, or a way of thinking about how teams are organised and should
 \end_layout
 
 \begin_layout Standard
-It can be adopted bottom-up, which means that some teams might decide independen
-tly to use DevOps principles.
- Then, if they see good results from their efforts, other teams might start
- to adopt the same approaches.
-\end_layout
-
-\begin_layout Standard
-Or, it can be adopted top-down, which means that management in the company
- might decide to make specific changes to the company structure and processes
- to allow devops culture to grow.
-\end_layout
-
-\begin_layout Standard
-Almost always, DevOps is about people.
- It’s about enabling people to work together, and removing the barriers
- that stop them from doing so.
-\end_layout
-
-\begin_layout Part*
-Appendix
-\end_layout
-
-\begin_layout Chapter*
-Glossary
-\end_layout
-
-\begin_layout Description
-Production Another term for the “live” environment, where the software runs
- for real users.
-\end_layout
-
-\begin_layout Description
-Silo A negative term used to describe a team that works on its own, and
- is perhaps difficult to interact with or collaborate with
-\end_layout
-
-\begin_layout Chapter*
-Acknowledgements
-\end_layout
-
-\begin_layout Standard
-Photos:
-\end_layout
-
-\begin_layout Standard
-- You X Ventures on Unsplash - https://unsplash.com/@youxventures
+(c) 2020 Tom Donohue
 \end_layout
 
 \end_body
